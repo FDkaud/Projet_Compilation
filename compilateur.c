@@ -8,7 +8,7 @@
 int yylex(void);
 extern char *yytext;
 FILE *yyin;
-
+int uniteCourante; 
 
 int main(int argc, char **argv)
 {  
@@ -29,7 +29,8 @@ int main(int argc, char **argv)
 	
 	if(uniteCourante == FIN)
 		printf("reussi");
-	else
+	
+	else if(uniteCourante != FIN)
 		printf("non reussi");
 	
   return 0;
