@@ -10,7 +10,11 @@ void initialise_premiers(void){
       premiers[i][j] = 0;
   
   // Exemple
-  premiers[_programme_][ENTIER] = 1; 
+  premiers[_programme_][ENTIER] = 1;
+  premiers[_programme_][ID_FCT] = 1;
+  premiers[_optDecVariables_][ENTIER] = 1;
+  premiers[_listeDecVariables_][ENTIER] = 1;
+  premiers[_listeDecVariablesBis_][VIRGULE] = 1;
     
   // TODO: Compléter le tableau premiers ici
 }
