@@ -54,7 +54,7 @@ void initialise_premiers(void){
   premiers[_instruction_][ID_FCT] = 1;
   premiers[_instruction_][RETOUR] = 1;
   premiers[_instruction_][ECRIRE] = 1;
-  premiers[_instruction_][EPSILON] = 1;
+  premiers[_instruction_][POINT_VIRGULE] = 1;
   
   //IAFF
   premiers[_instructionAffect_][ID_VAR] = 1;
@@ -97,7 +97,7 @@ void initialise_premiers(void){
   
   //EXP
   premiers[_expression_][NON] = 1; //pas sur pour le NON "!"
-  premiers[_expression_][CROCHET_OUVRANT] = 1;
+  premiers[_expression_][PARENTHESE_OUVRANTE] = 1;
   premiers[_expression_][NOMBRE] = 1;  
   premiers[_expression_][LIRE] = 1;
   premiers[_expression_][ID_FCT] = 1;  
