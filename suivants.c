@@ -39,13 +39,10 @@ void initialise_suivants(void){
   suivants[_listeDecFonctions_][FIN] = 1;
 
   //DF
-  suivants[_declarationFonction_][ID_FCT] = 1;
   suivants[_declarationFonction_][FIN] = 1;
   
   //LP
   suivants[_listeParam_][ENTIER] = 1;
-  suivants[_listeParam_][FIN] = 1;
-  suivants[_listeParam_][ID_FCT] = 1;
   suivants[_listeParam_][ACCOLADE_OUVRANTE] = 1;
 
   //OLDV
