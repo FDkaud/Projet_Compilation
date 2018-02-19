@@ -2,6 +2,7 @@
 #include "premiers.h"
 
 void initialise_premiers(void){
+	
 	int i,j;
 
 	// Initialiser toutes les cases du tableau Ã  0
