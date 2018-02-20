@@ -2,14 +2,12 @@
 #include "premiers.h"
 
 void initialise_premiers(void){
-	
-	int i,j;
-
-	// Initialiser toutes les cases du tableau Ã  0
-	for(i=0; i <= NB_NON_TERMINAUX; i++)
-	for(j=0; j <= NB_TERMINAUX; j++)
-	premiers[i][j] = 0;
-
+  int i,j;
+  
+  // Initialiser toutes les cases du tableau Ã  0
+  for(i=0; i <= NB_NON_TERMINAUX; i++)
+    for(j=0; j <= NB_TERMINAUX; j++)
+      premiers[i][j] = 0;
 	//PG
 	premiers[_programme_][ENTIER] = 1; 
 	premiers[_programme_][ID_FCT] = 1; 
@@ -45,7 +43,7 @@ void initialise_premiers(void){
 	
 	//OLDV
 	premiers[_optListeDecVariables_][EPSILON] = 1;
-	remiers[_optListeDecVariables_][ENTIER] = 1;
+	premiers[_optListeDecVariables_][ENTIER] = 1;
 	
 	//I
 	premiers[_instruction_][ID_FCT] = 1;
@@ -54,7 +52,7 @@ void initialise_premiers(void){
 	premiers[_instruction_][RETOUR] = 1;
 	premiers[_instruction_][ECRIRE] = 1;
 	premiers[_instruction_][POINT_VIRGULE] = 1;
-	premiers[_instruction_][ACCOLADE_OUVRANTE] = 1;
+	premiers[_instruction_][ACCOLADE_OUVRANTE] = 1; 
 	premiers[_instruction_][SI] = 1;
 	
 	//IAFF
@@ -125,7 +123,6 @@ void initialise_premiers(void){
 	premiers[_comparaison_][ID_VAR] = 1;
 	premiers[_comparaison_][ID_FCT] = 1;
 	premiers[_comparaison_][LIRE] = 1;
-	premiers[_comparaison_][NON] = 1;
 	premiers[_comparaison_][PARENTHESE_OUVRANTE] = 1;
 	
 	//COMPB
@@ -138,7 +135,7 @@ void initialise_premiers(void){
 	premiers[_expArith_][ID_VAR] = 1;
 	premiers[_expArith_][ID_FCT] = 1;
 	premiers[_expArith_][LIRE] = 1;
-	premiers[_expArith_][NON] = 1;
+	//premiers[_expArith_][NON] = 1;
 	premiers[_expArith_][PARENTHESE_OUVRANTE] = 1;
 	
 	//EB
@@ -198,6 +195,6 @@ void initialise_premiers(void){
 	premiers[_listeExpressionsBis_][EPSILON] = 1;
 }
 
-int est_premier(int terminal, int non_terminal){
-	return premiers[non_terminal][terminal];
+int est_premier(int non_terminal, int terminal){
+  return premiers[non_terminal][terminal];
 }
