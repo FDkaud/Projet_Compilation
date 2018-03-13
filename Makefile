@@ -4,7 +4,7 @@ FLEX = ./flex
 LIBS = -lm 
 CCFLAGS = -Wall -ggdb
 
-OBJ = analyseur_lexical_flex.o util.o analyseur_syntaxique.o
+OBJ = analyseur_lexical_flex.o util.o analyseur_syntaxique.o premiers.o suivants.o
 
 all: compilateur
 
@@ -14,13 +14,20 @@ compilateur: compilateur.c $(OBJ)
 analyseur_lexical_flex.c: analyseur_lexical.flex
 	$(FLEX) -o $@ $^
 
+
 analyseur_lexical_flex.o: analyseur_lexical_flex.c
 	$(CC) $(CCFLAGS) -c $^
 
-analyseur_syntaxique.o: analyseur_syntaxique.c analyseur_syntaxique.h
+analyseur_syntaxique.o: analyseur_syntaxique.c  analyseur_syntaxique.h
 	$(CC) $(CCFLAGS) -c $^
 
 util.o: util.c
+	$(CC) $(CCFLAGS) -c $^
+	
+premiers.o: premiers.c  premiers.h
+	$(CC) $(CCFLAGS) -c $^
+
+suivants.o: suivants.c  suivants.h
 	$(CC) $(CCFLAGS) -c $^
 
 .PHONY : clean

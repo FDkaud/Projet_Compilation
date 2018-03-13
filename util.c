@@ -2,13 +2,17 @@
 #include <stdlib.h>
 #include <string.h>
 #include "symboles.h"
+#include "util.h"
+
 
 int yylex();
-
 extern char *yytext;   // déclaré dans analyseur_lexical
 extern int  yylineno;  // déclaré dans analyseur_lexical
 int indent_xml = 0;
 int indent_step = 1; // mettre à 0 pour ne pas indenter
+
+
+
 
 /*******************************************************************************
  * Affiche le message d'alerte donné en paramètre, avec le numéro de ligne 
@@ -163,6 +167,8 @@ void nom_token( int token, char *nom, char *valeur ) {
   else if(token == NON) strcpy(valeur, "NON"); 
   else if(token == FIN) strcpy(valeur, "FIN");
   else if(token == VIRGULE) strcpy(valeur, "VIRGULE");
+  else if(token == INTERROGATION) strcpy(valeur, "INTERROGATION");
+  else if(token == DEUXPOINTS) strcpy(valeur, "DEUXPOINTS");
 
   else if( token == ID_VAR ) {
     strcpy( nom, "id_variable" );  
@@ -199,4 +205,90 @@ void test_yylex_internal(FILE *yyin) {
     nom_token( uniteCourante, nom, valeur );
     printf("%s\t%s\t%s\n", yytext, nom, valeur);
   } while (uniteCourante != FIN);
+}
+
+
+
+// À rajouter dans util.c
+/*******************************************************************************
+ * Affiche une élément XML correspondant à une unité lexicale de code uc. Pour
+ * cela, utilise la fonction affiche_element ci-dessus, avec le nom de l'élément
+ * comme balise et sa valeur comme texte. Si la valeur de trace_xml est zéro, 
+ * rien ne sera affiché (permet de désactiver l'affichage de l'arbre syntaxique)
+ ******************************************************************************/
+ 
+void affiche_feuille(int uc, int trace_xml) {
+  char nom[100], valeur[100];
+  nom_token( uc, nom, valeur );
+  affiche_element( nom, valeur, trace_xml );
+}
+
+
+/*******************************************************************************
+ * Fonction utile pour faire avancer la tête de lecture quand un symbole 
+ * terminal c dans une règle de production de la grammaire se retrouve sous la
+ * tête de lecture uc. Attention, uc est un pointeur vers l'unité courante de
+ * votre analyseur. Il peut être modifié avec un appel à yylex si la fonction
+ * réussit la reconnaissance du symbole (c-à-d si *uc == c). Dans ce cas, la 
+ * fonction affichera aussi l'élément XML feuille correspondant au terminal 
+ * reconnu. En cas d'échec, affiche un message d'erreur informatif. Si la valeur 
+ * de trace_xml est zéro, rien ne sera affiché (permet de désactiver l'affichage 
+ * de l'arbre syntaxique)
+ ******************************************************************************/
+
+void consommer( int c, int *uc, int trace_xml ) {
+  if( *uc == c ){
+    affiche_feuille(*uc, trace_xml);
+    *uc = yylex(); /* consommer le caractère */
+  }
+  else { /* Message d'erreur attendu/trouvé */
+    char nomC[100], valeurC[100], 
+         nomUC[100], valeurUC[100], messageErreur[250];  
+    nom_token( c, nomC, valeurC );
+    nom_token( *uc, nomUC, valeurUC );    
+    sprintf( messageErreur, "%s '%s' attendu, %s '%s' trouvé", 
+             nomC, valeurC, nomUC, valeurUC );
+    erreur( messageErreur );
+  }
+}
+
+void ouverture(const char* Display)  // pour les balises ouvrantes
+{
+	switch (mode_aff)
+	{
+		case XML_DISPLAY:
+			affiche_balise_ouvrante(Display,trace_xml);
+			break;
+		default:
+			
+			break;
+	}
+}
+
+void fermeture(const char* Display) // pour les balises fermanted
+{
+	switch(mode_aff)
+	{
+		case XML_DISPLAY:
+			affiche_balise_fermante(Display,trace_xml);
+			break;
+		default:
+			
+			break;
+	}
+}
+
+
+
+void affichage(int c, int* uc)
+{
+	switch(mode_aff)
+	{
+		case XML_DISPLAY:
+			consommer(c,uc,trace_xml);
+			break;
+		default:
+			consommer(c,uc,trace_xml);
+			break;
+	}
 }
