@@ -8,12 +8,20 @@
 #include "symboles.h"
 #include "util.h"
 #include "premiers.h"
+#include "syntabs.h"
 
 
 char nom[100];
 char valeur[100]; 
 int uniteCourante;
 
+n_instr *instructionAffect(void);
+n_instr *instructionBloc(void);
+n_instr *instructionSi(void);
+n_instr *instructionTantque(void);
+n_instr *instructionAppel(void);
+n_instr *instructionEcriture(void);
+n_instr *instructionVide(void);
 void declarationVariable(void);
 void listeDecVariables(void);
 void optDecVariables(void);

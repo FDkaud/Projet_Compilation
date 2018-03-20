@@ -316,13 +316,33 @@ void instructionAffect ()
 	}
 }
 
+n_instr *instructionAffect(void)
+{
+	n_instr *$$=NULL;
+	n_exp *$2=NULL;
+	n_var *$3=NULL;
+	
+	ouverture(__FUNCTION__, trace_xml);
+	if(uc==EGAL)
+	{
+			$3=var();
+			affichage(EGAL);
+			$2=expression();
+			affichage(POINT_VIRGULE);
+			$$= cree_n_instr_affect($3,$2);
+			fermeture(__FUNCTION__, trace_xml);
+			return $$;
+	}
+	erreur("");
+}
+
 void instructionBloc ()
 {
 	ouverture(__FUNCTION__);	
 	if (uniteCourante == ACCOLADE_OUVRANTE)
 	{
 		affichage(ACCOLADE_OUVRANTE, &uniteCourante);  // Consome '{'
-		listeInstructions ();
+		listeInstructions();
 		affichage(ACCOLADE_FERMANTE, &uniteCourante); // Consome '}'
 		fermeture(__FUNCTION__);
 		return;
@@ -333,6 +353,24 @@ void instructionBloc ()
 		printf("%s (%s)\nErreur : { demandee.\n", yytext, valeur);
 		exit (-1);
 	}
+}
+
+n_instr *instructionBloc(void)
+{
+	n_instr *$$=NULL;
+	n_instr *$2=NULL;
+	
+	ouverture(__FUNCTION__, trace_xml);
+	if(uc==ACCOLADE_OUVRANTE)
+	{
+			affichage(ACCOLADE_OUVRANTE);
+			$2=listeInstructions();
+			affichage(ACCOLADE_FERMANTE);
+			$$= cree_n_instr_bloc($2);
+			fermeture(__FUNCTION__, trace_xml);
+			return $$;
+	}
+	erreur("");
 }
 
 void listeInstructions ()
@@ -378,6 +416,29 @@ void instructionSi ()
 		exit (-1);
 	}
 }
+
+n_instr *instructionSi(void)
+{
+	n_instr *$$=NULL;
+	n_exp *$2=NULL;
+	n_instr *$4=NULL;
+	n_instr *$5=NULL;
+	
+	ouverture(__FUNCTION__, trace_xml);
+	if(uc==SI)
+	{
+			affichage(SI);
+			$2=expression();
+			affichage(ALORS);
+			$4=instructionBloc();
+			$5=optSinon();
+			$$= cree_n_instr_si($2,$4,$5);
+			fermeture(__FUNCTION__, trace_xml);
+			return $$;
+	}
+	erreur("");
+}
+
 void optSinon ()
 {
 	ouverture(__FUNCTION__);	
@@ -420,6 +481,27 @@ void instructionTantque ()
 		exit (-1);
 	}
 }
+
+n_instr *instructionTantque(void)
+{
+	n_instr *$$=NULL;
+	n_exp *$2=NULL;
+	n_instr *$4=NULL;
+	
+	ouverture(__FUNCTION__, trace_xml);
+	if(uc==TANTQUE)
+	{
+			affichage(TANTQUE);
+			$2=expression();
+			affichage(FAIRE);
+			$4= nstructionBloc ();
+			$$= cree_n_instr_tantque($2,$4);
+			fermeture(__FUNCTION__, trace_xml);
+			return $$;
+	}
+	erreur("");
+}
+
 void instructionAppel ()
 {
 	ouverture(__FUNCTION__);	
@@ -438,6 +520,24 @@ void instructionAppel ()
 	}
 
 }
+
+n_instr *instructionAppel(void)
+{
+	n_instr *$$=NULL;
+	n_instr *$2=NULL;
+	
+	ouverture(__FUNCTION__, trace_xml);
+	if(uc==ID_FCT)
+	{
+			$2=appelFct ();
+			affichage(POINT_VIRGULE);
+			$$= cree_n_instr_appel($2);
+			fermeture(__FUNCTION__, trace_xml);
+			return $$;
+	}
+	erreur("");
+}
+
 void instructionRetour ()
 {
 	ouverture(__FUNCTION__);	
@@ -456,6 +556,24 @@ void instructionRetour ()
 		exit (-1);
 	}
 }
+
+n_instr *instructionAppel(void)
+{
+	n_instr *$$=NULL;
+	n_instr *$2=NULL;
+	
+	ouverture(__FUNCTION__, trace_xml);
+	if(uc==ID_FCT)
+	{
+			$2=appelFct ();
+			affichage(POINT_VIRGULE);
+			$$= cree_n_instr_appel($2);
+			fermeture(__FUNCTION__, trace_xml);
+			return $$;
+	}
+	erreur("");
+}
+
 void instructionEcriture ()
 {
 	ouverture(__FUNCTION__);	
@@ -463,7 +581,7 @@ void instructionEcriture ()
 	{
 		affichage(ECRIRE, &uniteCourante);  // Consome 'ecr'
 		affichage(PARENTHESE_OUVRANTE, &uniteCourante);  // Consome '('
-		expression ();
+		expression();
 		affichage(PARENTHESE_FERMANTE, &uniteCourante);  // Consome ')'
 		affichage(POINT_VIRGULE, &uniteCourante); // Consome ';'
 		fermeture(__FUNCTION__);
@@ -476,6 +594,27 @@ void instructionEcriture ()
 		exit (-1);
 	}
 }
+
+n_instr *instructionEcriture(void)
+{
+	n_instr *$$=NULL;
+	n_exp *$2=NULL;
+	
+	ouverture(__FUNCTION__, trace_xml);
+	if(uc==ECRIRE)
+	{
+			affichage(ECRIRE);
+			affichage(PARENTHESE_OUVRANTE);
+			$2=expression();;
+			affichage(PARENTHESE_FERMANTE);
+			affiche(POINT_VIRGULE);
+			$$= cree_n_instr_ecrire($2);
+			fermeture(__FUNCTION__, trace_xml);
+			return $$;
+	}
+	erreur("");
+}
+
 void instructionVide ()
 {
 	ouverture(__FUNCTION__);	
@@ -492,6 +631,24 @@ void instructionVide ()
 		exit (-1);
 	}
 }
+
+n_instr *instructionVide(void)
+{
+	n_instr *$$=NULL;
+
+	
+	ouverture(__FUNCTION__, trace_xml);
+	if(uc==POINT_VIRGULE)
+	{
+			
+			affiche(POINT_VIRGULE);
+			$$= cree_n_instr_vide();
+			fermeture(__FUNCTION__, trace_xml);
+			return $$;
+	}
+	erreur("");
+}
+
 void expression ()
 {
 	ouverture(__FUNCTION__);	
@@ -509,6 +666,7 @@ void expression ()
 		exit (-1);
 	}
 }
+
 void expressionBis ()
 {
 	ouverture(__FUNCTION__);	
@@ -534,6 +692,7 @@ void expressionBis ()
 	}
 	fermeture(__FUNCTION__);
 }
+
 void conjonction ()
 {
 	ouverture(__FUNCTION__);	
