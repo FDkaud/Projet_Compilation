@@ -176,13 +176,13 @@ int optTailleTableau ()
 	}
 }
 
-n_l_dec* listeDecFonctions ()
+n_l_dec * listeDecFonctions()
 {
 	ouverture(__FUNCTION__);	
 	if (est_premier(uniteCourante, _declarationFonction_) == 1)
 	{
-		n_dec *$1 = declarationFonction ();
-		n_l_dec *$2 = listeDecFonctions ();
+		n_dec * $1 = declarationFonctions();
+		n_l_dec * $2 = listeDecFonctions();
 		fermeture(__FUNCTION__);
 
 		n_l_dec *$$ = cree_n_l_dec($1, $2);
@@ -203,7 +203,7 @@ n_l_dec* listeDecFonctions ()
 	}
 }
 
-n_dec* declarationFonction ()
+n_dec* declarationFonctions()
 {
 	ouverture(__FUNCTION__);	
 	if (uniteCourante == ID_FCT)
@@ -385,7 +385,7 @@ n_l_instr * listeInstructions ()
 	if (est_premier(uniteCourante, _instruction_) == 1)
 	{
 		n_instr *$1 = instruction ();
-		n_l_instr *$2 = listeInstructions ($1);
+		n_l_instr *$2 = listeInstructions();
 		fermeture(__FUNCTION__);
 		
 		n_l_instr *$$ = cree_n_l_instr($1, $2);
@@ -571,7 +571,7 @@ n_exp * expression ()
 	ouverture(__FUNCTION__);	
 	if (est_premier(uniteCourante, _conjonction_) == 1)
 	{
-		n_exp *$1 = conjonction ();
+		n_exp *$1 = conjonction();
 		n_exp *$2 = expressionBis ($1);
 			
 		fermeture(__FUNCTION__);
@@ -716,7 +716,7 @@ n_exp * comparaison ()
 	if (est_premier(uniteCourante, _expArith_) == 1)
 	{
 		n_exp *$1 = expArith();
-		n_exp *$2 = comparaisonBis ($1);
+		n_exp *$2 = comparaisonBis($1);
 		fermeture(__FUNCTION__);
 		
 	
